@@ -1,0 +1,75 @@
+name: 🚀 Build & Deploy Portfolio
+
+on:
+  schedule:
+    - cron: '0 6 * * *'       # daily at 06:00 UTC
+  workflow_dispatch:            # manual trigger via GitHub UI
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/**'
+      - 'src/**'
+      - 'templates/**'
+      - 'pyproject.toml'
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build Portfolio
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install uv
+        run: pip install uv
+
+      - name: Install dependencies
+        run: uv pip install --system -e .
+
+      - name: Run portfolio pipeline
+        env:
+          JIRA_BASE_URL:       ${{ secrets.JIRA_BASE_URL }}
+          JIRA_EMAIL:          ${{ secrets.JIRA_EMAIL }}
+          JIRA_API_TOKEN:      ${{ secrets.JIRA_API_TOKEN }}
+          JIRA_PROJECT_KEY:    ${{ vars.JIRA_PROJECT_KEY }}
+          GITHUB_TOKEN:        ${{ secrets.GH_PAT }}
+          GITHUB_USERNAME:     ${{ vars.GITHUB_USERNAME }}
+          PORTFOLIO_NAME:      ${{ vars.PORTFOLIO_NAME }}
+          PORTFOLIO_ROLE:      ${{ vars.PORTFOLIO_ROLE }}
+          PORTFOLIO_LOCATION:  ${{ vars.PORTFOLIO_LOCATION }}
+          PORTFOLIO_GITHUB:    ${{ vars.PORTFOLIO_GITHUB }}
+          PORTFOLIO_LINKEDIN:  ${{ vars.PORTFOLIO_LINKEDIN }}
+          ANTHROPIC_API_KEY:   ${{ secrets.ANTHROPIC_API_KEY }}
+          USE_AI_ENRICHMENT:   'true'
+        run: python -m scripts.main
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './site'
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

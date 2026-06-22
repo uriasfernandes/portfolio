@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ portfolio.name }} · DevOps Portfolio</title>
+  <meta name="description" content="{{ portfolio.role }} — {{ portfolio.location }}" />
+
+  <!-- Fonts & icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:          #0d1117;
+      --surface:     #161b22;
+      --surface2:    #21262d;
+      --border:      #30363d;
+      --accent:      #58a6ff;
+      --accent2:     #3fb950;
+      --accent3:     #f0883e;
+      --text:        #e6edf3;
+      --text-muted:  #8b949e;
+      --radius:      10px;
+      --shadow:      0 4px 24px rgba(0,0,0,.4);
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.65;
+      min-height: 100vh;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    code { font-family: 'JetBrains Mono', monospace; font-size: .85em; }
+
+    /* ── Layout ────────────────────────────────────────────────────────────── */
+    .container { max-width: 1060px; margin: 0 auto; padding: 0 1.5rem; }
+
+    /* ── Hero ──────────────────────────────────────────────────────────────── */
+    .hero {
+      background: linear-gradient(135deg, #0d1117 0%, #161b22 60%, #0d2137 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 5rem 0 4rem;
+      text-align: center;
+    }
+    .hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; letter-spacing: -.02em; }
+    .hero .role { font-size: 1.15rem; color: var(--accent); margin: .5rem 0 1rem; font-weight: 500; }
+    .hero .location { color: var(--text-muted); font-size: .95rem; }
+    .hero-links { display: flex; gap: 1rem; justify-content: center; margin-top: 1.8rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: .4rem;
+      padding: .55rem 1.25rem;
+      border-radius: 6px;
+      font-size: .9rem; font-weight: 500;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--text);
+      transition: background .15s, border-color .15s;
+    }
+    .btn:hover { background: var(--surface); border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .hero-updated { font-size: .78rem; color: var(--text-muted); margin-top: 1.5rem; }
+
+    /* ── Metrics bar ───────────────────────────────────────────────────────── */
+    .metrics-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border-top: 1px solid var(--border);
+    }
+    .metric {
+      background: var(--surface);
+      padding: 1.5rem 1rem;
+      text-align: center;
+    }
+    .metric-value { font-size: 2rem; font-weight: 700; color: var(--accent); }
+    .metric-label { font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin-top: .2rem; }
+
+    /* ── Sections ──────────────────────────────────────────────────────────── */
+    section { padding: 3.5rem 0; border-bottom: 1px solid var(--border); }
+    section:last-child { border-bottom: none; }
+    .section-title {
+      font-size: 1.35rem; font-weight: 700;
+      margin-bottom: 1.5rem;
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+      margin-left: .5rem;
+    }
+
+    /* ── Skills cloud ──────────────────────────────────────────────────────── */
+    .skills-cloud { display: flex; flex-wrap: wrap; gap: .6rem; }
+    .skill-tag {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: .35rem .85rem;
+      font-size: .82rem; font-weight: 500;
+      display: inline-flex; align-items: center; gap: .4rem;
+      transition: border-color .15s;
+    }
+    .skill-tag:hover { border-color: var(--accent); }
+    .skill-score {
+      background: var(--bg);
+      border-radius: 4px;
+      padding: 0 .35rem;
+      font-size: .72rem;
+      color: var(--accent2);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* ── Epic cards ────────────────────────────────────────────────────────── */
+    .epics-grid { display: grid; gap: 1.5rem; }
+    .epic-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: border-color .2s;
+    }
+    .epic-card:hover { border-color: var(--accent); }
+    .epic-header {
+      padding: 1.25rem 1.5rem;
+      background: var(--surface2);
+      border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;
+    }
+    .epic-key {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .78rem;
+      color: var(--text-muted);
+    }
+    .epic-title { font-size: 1.05rem; font-weight: 600; margin-top: .2rem; }
+    .epic-status {
+      font-size: .72rem; text-transform: uppercase; letter-spacing: .06em;
+      padding: .2rem .6rem; border-radius: 4px; white-space: nowrap;
+      background: color-mix(in srgb, var(--accent2) 15%, transparent);
+      color: var(--accent2); border: 1px solid color-mix(in srgb, var(--accent2) 30%, transparent);
+    }
+    .epic-body { padding: 1.25rem 1.5rem; }
+    .epic-description { color: var(--text-muted); font-size: .9rem; margin-bottom: 1rem; }
+    .epic-skills { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: 1.2rem; }
+    .epic-skill {
+      font-size: .72rem;
+      background: color-mix(in srgb, var(--accent) 10%, transparent);
+      color: var(--accent);
+      border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+      border-radius: 4px;
+      padding: .15rem .5rem;
+    }
+
+    /* ── Task list ─────────────────────────────────────────────────────────── */
+    .tasks { display: flex; flex-direction: column; gap: .75rem; }
+    .task-item {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+    }
+    .task-meta { display: flex; gap: .75rem; align-items: center; flex-wrap: wrap; margin-bottom: .4rem; }
+    .task-key { font-family: 'JetBrains Mono', monospace; font-size: .75rem; color: var(--text-muted); }
+    .task-type {
+      font-size: .7rem; text-transform: uppercase; letter-spacing: .06em;
+      padding: .1rem .45rem; border-radius: 3px;
+    }
+    .task-type.task  { background: #1f3a5f; color: #58a6ff; }
+    .task-type.story { background: #1a3a2f; color: #3fb950; }
+    .task-type.bug   { background: #3d1f1f; color: #f85149; }
+    .task-title { font-size: .92rem; font-weight: 500; }
+    .task-cv-bullet { font-size: .82rem; color: var(--accent2); font-style: italic; margin-top: .35rem; }
+    .task-impact { font-size: .8rem; color: var(--accent3); margin-top: .2rem; }
+    .task-prs { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .6rem; }
+    .pr-chip {
+      display: inline-flex; align-items: center; gap: .3rem;
+      font-size: .72rem;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: .15rem .55rem;
+      color: var(--text-muted);
+      transition: all .15s;
+    }
+    .pr-chip:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .pr-chip .additions { color: var(--accent2); }
+    .pr-chip .deletions { color: #f85149; }
+
+    /* ── Timeline ──────────────────────────────────────────────────────────── */
+    .timeline { position: relative; padding-left: 1.5rem; }
+    .timeline::before {
+      content: '';
+      position: absolute; left: 0; top: 0; bottom: 0;
+      width: 2px; background: var(--border);
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 1.5rem;
+      padding-left: 1.25rem;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute; left: -1.6rem; top: .35rem;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid var(--bg);
+    }
+    .timeline-date { font-size: .78rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
+    .timeline-title { font-size: .92rem; font-weight: 500; }
+    .timeline-key { font-size: .75rem; color: var(--accent); }
+
+    /* ── Footer ────────────────────────────────────────────────────────────── */
+    .footer {
+      text-align: center;
+      padding: 2rem 0;
+      color: var(--text-muted);
+      font-size: .82rem;
+      border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 640px) {
+      .hero { padding: 3rem 0 2.5rem; }
+      .epic-header { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Hero ──────────────────────────────────────────────────────────────── -->
+<div class="hero">
+  <div class="container">
+    <div style="font-size:1rem;color:var(--text-muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.5rem;">Portfolio</div>
+    <h1>{{ portfolio.name }}</h1>
+    <div class="role">{{ portfolio.role }}</div>
+    <div class="location">📍 {{ portfolio.location }}</div>
+    <div class="hero-links">
+      <a class="btn" href="{{ portfolio.github_url }}" target="_blank" rel="noopener">
+        ⚙ GitHub
+      </a>
+      <a class="btn" href="{{ portfolio.linkedin_url }}" target="_blank" rel="noopener">
+        💼 LinkedIn
+      </a>
+      <a class="btn" href="portfolio.json" target="_blank" rel="noopener">
+        {} Raw JSON
+      </a>
+    </div>
+    <div class="hero-updated">
+      Last updated: {{ portfolio.generated_at.strftime('%B %d, %Y at %H:%M UTC') }}
+    </div>
+  </div>
+</div>
+
+<!-- ── Metrics bar ────────────────────────────────────────────────────────── -->
+<div class="metrics-bar">
+  <div class="metric">
+    <div class="metric-value">{{ portfolio.metrics.total_epics }}</div>
+    <div class="metric-label">Epics</div>
+  </div>
+  <div class="metric">
+    <div class="metric-value">{{ portfolio.metrics.total_tasks }}</div>
+    <div class="metric-label">Tasks / Stories</div>
+  </div>
+  <div class="metric">
+    <div class="metric-value">{{ portfolio.metrics.total_prs }}</div>
+    <div class="metric-label">Pull Requests</div>
+  </div>
+  <div class="metric">
+    <div class="metric-value">+{{ "{:,}".format(portfolio.metrics.total_additions) }}</div>
+    <div class="metric-label">Lines Added</div>
+  </div>
+  <div class="metric">
+    <div class="metric-value">-{{ "{:,}".format(portfolio.metrics.total_deletions) }}</div>
+    <div class="metric-label">Lines Removed</div>
+  </div>
+  {% if portfolio.metrics.avg_delivery_days %}
+  <div class="metric">
+    <div class="metric-value">{{ portfolio.metrics.avg_delivery_days }}d</div>
+    <div class="metric-label">Avg Delivery</div>
+  </div>
+  {% endif %}
+</div>
+
+<div class="container">
+
+<!-- ── Skills ─────────────────────────────────────────────────────────────── -->
+<section>
+  <div class="section-title">⚡ Core Skills</div>
+  <div class="skills-cloud">
+    {% for skill in portfolio.metrics.top_skills %}
+    <span class="skill-tag">
+      {{ skill.name }}
+      <span class="skill-score">{{ skill.score }}</span>
+    </span>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- ── Epics ──────────────────────────────────────────────────────────────── -->
+<section>
+  <div class="section-title">🏗 Epics &amp; Projects</div>
+  <div class="epics-grid">
+    {% for epic in portfolio.epics %}
+    <div class="epic-card">
+      <div class="epic-header">
+        <div>
+          <div class="epic-key">{{ epic.key }}</div>
+          <div class="epic-title">
+            {% if epic.enriched_summary %}{{ epic.enriched_summary }}
+            {% else %}{{ epic.summary }}{% endif %}
+          </div>
+        </div>
+        <span class="epic-status">{{ epic.status }}</span>
+      </div>
+      <div class="epic-body">
+        {% if epic.skills %}
+        <div class="epic-skills">
+          {% for skill in epic.skills[:8] %}
+          <span class="epic-skill">{{ skill.name }}</span>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if epic.tasks %}
+        <div class="tasks">
+          {% for task in epic.tasks %}
+          <div class="task-item">
+            <div class="task-meta">
+              <span class="task-key">{{ task.key }}</span>
+              <span class="task-type {{ task.issue_type.lower() }}">{{ task.issue_type }}</span>
+              <span style="font-size:.72rem;color:var(--text-muted)">{{ task.status }}</span>
+            </div>
+            <div class="task-title">{{ task.summary }}</div>
+            {% if task.cv_bullet %}
+            <div class="task-cv-bullet">→ {{ task.cv_bullet }}</div>
+            {% endif %}
+            {% if task.business_impact %}
+            <div class="task-impact">💡 {{ task.business_impact }}</div>
+            {% endif %}
+            {% if task.pull_requests %}
+            <div class="task-prs">
+              {% for pr in task.pull_requests %}
+              <a class="pr-chip" href="{{ pr.url }}" target="_blank" rel="noopener">
+                🔀 #{{ pr.number }} {{ pr.repo.split('/')[1] if '/' in pr.repo else pr.repo }}
+                <span class="additions">+{{ pr.additions }}</span>
+                <span class="deletions">-{{ pr.deletions }}</span>
+              </a>
+              {% endfor %}
+            </div>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- ── Standalone Tasks ───────────────────────────────────────────────────── -->
+{% if portfolio.standalone_tasks %}
+<section>
+  <div class="section-title">🧩 Additional Contributions</div>
+  <div class="tasks">
+    {% for task in portfolio.standalone_tasks %}
+    <div class="task-item">
+      <div class="task-meta">
+        <span class="task-key">{{ task.key }}</span>
+        <span class="task-type {{ task.issue_type.lower() }}">{{ task.issue_type }}</span>
+        <span style="font-size:.72rem;color:var(--text-muted)">{{ task.status }}</span>
+      </div>
+      <div class="task-title">{{ task.summary }}</div>
+      {% if task.cv_bullet %}<div class="task-cv-bullet">→ {{ task.cv_bullet }}</div>{% endif %}
+      {% if task.business_impact %}<div class="task-impact">💡 {{ task.business_impact }}</div>{% endif %}
+      {% if task.pull_requests %}
+      <div class="task-prs">
+        {% for pr in task.pull_requests %}
+        <a class="pr-chip" href="{{ pr.url }}" target="_blank" rel="noopener">
+          🔀 #{{ pr.number }}
+          <span class="additions">+{{ pr.additions }}</span>
+          <span class="deletions">-{{ pr.deletions }}</span>
+        </a>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+<!-- ── Timeline ───────────────────────────────────────────────────────────── -->
+<section>
+  <div class="section-title">📅 Activity Timeline</div>
+  <div class="timeline">
+    {% set all_issues = (portfolio.epics | map(attribute='tasks') | sum(start=[])) + portfolio.standalone_tasks %}
+    {% for issue in all_issues | sort(attribute='created', reverse=True) | list %}
+    {% if issue.created %}
+    <div class="timeline-item">
+      <div class="timeline-date">{{ issue.created.strftime('%Y-%m-%d') }}</div>
+      <div class="timeline-title">{{ issue.summary }}</div>
+      <div class="timeline-key">{{ issue.key }} · {{ issue.issue_type }} · {{ issue.status }}</div>
+    </div>
+    {% endif %}
+    {% endfor %}
+  </div>
+</section>
+
+</div><!-- /container -->
+
+<footer class="footer">
+  Generated automatically by
+  <a href="https://github.com/{{ portfolio.github_url.split('github.com/')[-1] }}/devops-portfolio">devops-portfolio</a>
+  · Powered by Jira + GitHub + Anthropic Claude
+</footer>
+
+</body>
+</html>

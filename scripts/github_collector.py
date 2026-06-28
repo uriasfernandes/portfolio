@@ -16,7 +16,7 @@ _GH_API = "https://api.github.com"
 
 
 def _headers() -> dict[str, str]:
-    token = os.environ.get("GITHUB_TOKEN", "")
+    token = os.environ.get("GH_TOKEN", "")
     h = {"Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28"}
     if token:
         h["Authorization"] = f"Bearer {token}"
@@ -47,9 +47,20 @@ def _paginate(url: str, params: dict | None = None) -> list[dict]:
 
 
 def fetch_user_repos(username: str) -> list[dict]:
-    """Return all repos the user has push access to (own + org)."""
-    url = f"{_GH_API}/users/{username}/repos"
-    repos = _paginate(url, {"type": "all", "sort": "updated"})
+    """Return all repos the authenticated user has access to (own + all orgs)."""
+    # /user/repos with affiliation=owner,collaborator,organization_member
+    # returns everything the token can see — including private org repos.
+    # Falls back to the public /users/{username}/repos if no token is present.
+    if os.environ.get("GH_TOKEN"):
+        url = f"{_GH_API}/user/repos"
+        repos = _paginate(url, {"affiliation": "owner,collaborator,organization_member", "sort": "updated"})
+    else:
+        url = f"{_GH_API}/users/{username}/repos"
+        repos = [
+            r
+            for r in _paginate(url, {"type": "all", "sort": "updated"})
+            if not r.get("archived", False) and not r.get("disabled", False)
+        ]
     logger.info("GitHub: found %d repos for %s", len(repos), username)
     return repos
 
@@ -81,6 +92,10 @@ def fetch_pr_by_url(pr_url: str) -> dict | None:
     """Fetch a single PR given its HTML url (github.com/org/repo/pull/N)."""
     import re
 
+    if not os.environ.get("GH_TOKEN"):
+        logger.debug("Skipping PR fetch (no GH_TOKEN): %s", pr_url)
+        return None
+
     m = re.match(r"https://github\.com/([^/]+/[^/]+)/pull/(\d+)", pr_url)
     if not m:
         return None
@@ -101,6 +116,14 @@ def fetch_pr_by_url(pr_url: str) -> dict | None:
             "changed_files": detail.get("changed_files", 0),
             "body": detail.get("body") or "",
         }
+    except requests.exceptions.HTTPError as exc:
+        status = exc.response.status_code if exc.response is not None else 0
+        if status in (403, 404):
+            # Private repo or PR deleted — expected, not an error
+            logger.debug("PR not accessible (HTTP %s): %s", status, pr_url)
+        else:
+            logger.warning("Could not fetch PR %s: %s", pr_url, exc)
+        return None
     except Exception as exc:
         logger.warning("Could not fetch PR %s: %s", pr_url, exc)
         return None
@@ -111,7 +134,7 @@ def collect(username: str | None = None) -> list[dict]:
     Fetch all PRs authored by `username` across their repos.
     Returns a flat list of enriched PR dicts.
     """
-    username = username or os.environ["GITHUB_USERNAME"]
+    username = username or os.environ["GH_USERNAME"]
     repos = fetch_user_repos(username)
     all_prs: list[dict] = []
 

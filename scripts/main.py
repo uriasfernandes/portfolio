@@ -29,6 +29,7 @@ from scripts.github_collector import collect as github_collect
 from scripts.pr_extractor import enrich_tasks_with_prs
 from scripts.portfolio_builder import build as portfolio_build
 from src.analyzers.ai_enricher import enrich_issues_batch
+from src.analyzers.sanitizer import sanitize
 
 console = Console()
 
@@ -47,6 +48,7 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--no-ai", action="store_true", help="Skip AI enrichment")
     p.add_argument("--no-github", action="store_true", help="Skip GitHub collection")
     p.add_argument("--dry-run", action="store_true", help="Don't write output files")
+    p.add_argument("--public", action="store_true", help="Also generate sanitized public site in site-public/")
     p.add_argument("--verbose", "-v", action="store_true")
     return p.parse_args()
 
@@ -76,7 +78,7 @@ def main() -> int:
 
         # 2. GitHub
         all_prs: list[dict] = []
-        if not args.no_github and os.environ.get("GITHUB_USERNAME"):
+        if not args.no_github and os.environ.get("GH_USERNAME"):
             task_id = progress.add_task("Collecting GitHub PRs…", total=None)
             all_prs = github_collect()
             progress.update(task_id, description=f"✅ GitHub: {len(all_prs)} PRs")
@@ -84,8 +86,11 @@ def main() -> int:
 
         # 3. Link PRs → tasks
         task_id = progress.add_task("Linking PRs to Jira issues…", total=None)
-        jira_data["tasks"] = enrich_tasks_with_prs(jira_data["tasks"], all_prs)
-        progress.update(task_id, description="✅ PR linking complete")
+        if not os.environ.get("GH_TOKEN"):
+            progress.update(task_id, description="⚠️  PR linking skipped (GH_TOKEN not set)")
+        else:
+            jira_data["tasks"] = enrich_tasks_with_prs(jira_data["tasks"], all_prs)
+            progress.update(task_id, description="✅ PR linking complete")
         progress.stop_task(task_id)
 
         # 4. AI enrichment
@@ -111,30 +116,34 @@ def main() -> int:
 
         # 6. Generate outputs
         if not args.dry_run:
-            site_dir = Path("site")
-            site_dir.mkdir(exist_ok=True)
+            jinja_env = Environment(loader=FileSystemLoader("templates"), autoescape=True)
+            tmpl = jinja_env.get_template("index.html.j2")
 
-            # portfolio.json
-            task_id = progress.add_task("Writing portfolio.json…", total=None)
-            json_path = site_dir / "portfolio.json"
-            json_path.write_text(portfolio.model_dump_json(indent=2, mode="json"), encoding="utf-8")
-            progress.update(task_id, description=f"✅ {json_path}")
+            def write_site(p: "Portfolio", directory: str) -> None:
+                site_dir = Path(directory)
+                site_dir.mkdir(exist_ok=True)
+                (site_dir / "portfolio.json").write_text(p.model_dump_json(indent=2), encoding="utf-8")
+                (site_dir / "index.html").write_text(tmpl.render(portfolio=p), encoding="utf-8")
+
+            # Full site (local — contains internal data)
+            task_id = progress.add_task("Writing site/ (full)…", total=None)
+            write_site(portfolio, "site")
+            progress.update(task_id, description="✅ site/  (full, local only)")
             progress.stop_task(task_id)
 
-            # index.html
-            task_id = progress.add_task("Rendering index.html…", total=None)
-            env = Environment(loader=FileSystemLoader("templates"), autoescape=True)
-            tmpl = env.get_template("index.html.j2")
-            html = tmpl.render(portfolio=portfolio)
-            html_path = site_dir / "index.html"
-            html_path.write_text(html, encoding="utf-8")
-            progress.update(task_id, description=f"✅ {html_path}")
+            # Public site (sanitized — safe to commit)
+            task_id = progress.add_task("Writing site-public/ (sanitized)…", total=None)
+            public_portfolio = sanitize(portfolio)
+            write_site(public_portfolio, "site-public")
+            progress.update(task_id, description="✅ site-public/  (sanitized, safe to publish)")
             progress.stop_task(task_id)
 
     console.print("\n[bold green]✨ Portfolio generated successfully![/bold green]")
-    console.print(f"  📄 JSON  → [cyan]site/portfolio.json[/cyan]")
-    console.print(f"  🌐 HTML  → [cyan]site/index.html[/cyan]")
+    console.print(f"  📄 site/          → full data  (local preview only)")
+    console.print(f"  🌐 site-public/   → sanitized  (safe to commit & publish)")
     console.print(f"  📊 {portfolio.metrics.total_epics} epics · {portfolio.metrics.total_tasks} tasks · {portfolio.metrics.total_prs} PRs")
+    console.print("\n[dim]Verify sanitization:[/dim]")
+    console.print("  [dim]uv run python -m scripts.diff_check[/dim]")
 
     return 0
 

@@ -6,7 +6,6 @@
   <title>{{ portfolio.name }} · DevOps Portfolio</title>
   <meta name="description" content="{{ portfolio.role }} — {{ portfolio.location }}" />
 
-  <!-- Fonts & icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
@@ -19,255 +18,223 @@
       --surface2:    #21262d;
       --border:      #30363d;
       --accent:      #58a6ff;
-      --accent2:     #3fb950;
-      --accent3:     #f0883e;
+      --green:       #3fb950;
+      --orange:      #f0883e;
+      --purple:      #bc8cff;
+      --red:         #f85149;
       --text:        #e6edf3;
       --text-muted:  #8b949e;
       --radius:      10px;
-      --shadow:      0 4px 24px rgba(0,0,0,.4);
     }
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Inter', sans-serif;
-      line-height: 1.65;
-      min-height: 100vh;
-    }
-
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.65; }
     a { color: var(--accent); text-decoration: none; }
     a:hover { text-decoration: underline; }
-    code { font-family: 'JetBrains Mono', monospace; font-size: .85em; }
 
-    /* ── Layout ────────────────────────────────────────────────────────────── */
-    .container { max-width: 1060px; margin: 0 auto; padding: 0 1.5rem; }
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 1.5rem; }
 
-    /* ── Hero ──────────────────────────────────────────────────────────────── */
+    /* ── Hero ── */
     .hero {
       background: linear-gradient(135deg, #0d1117 0%, #161b22 60%, #0d2137 100%);
       border-bottom: 1px solid var(--border);
       padding: 5rem 0 4rem;
       text-align: center;
     }
+    .hero-eyebrow { font-size: .78rem; color: var(--text-muted); letter-spacing: .14em; text-transform: uppercase; margin-bottom: .6rem; }
     .hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; letter-spacing: -.02em; }
     .hero .role { font-size: 1.15rem; color: var(--accent); margin: .5rem 0 1rem; font-weight: 500; }
     .hero .location { color: var(--text-muted); font-size: .95rem; }
     .hero-links { display: flex; gap: 1rem; justify-content: center; margin-top: 1.8rem; flex-wrap: wrap; }
     .btn {
       display: inline-flex; align-items: center; gap: .4rem;
-      padding: .55rem 1.25rem;
-      border-radius: 6px;
+      padding: .55rem 1.25rem; border-radius: 6px;
       font-size: .9rem; font-weight: 500;
-      border: 1px solid var(--border);
-      background: var(--surface2);
-      color: var(--text);
+      border: 1px solid var(--border); background: var(--surface2); color: var(--text);
       transition: background .15s, border-color .15s;
     }
     .btn:hover { background: var(--surface); border-color: var(--accent); color: var(--accent); text-decoration: none; }
-    .hero-updated { font-size: .78rem; color: var(--text-muted); margin-top: 1.5rem; }
+    .hero-updated { font-size: .76rem; color: var(--text-muted); margin-top: 1.5rem; }
 
-    /* ── Metrics bar ───────────────────────────────────────────────────────── */
+    /* ── Metrics bar ── */
     .metrics-bar {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-      gap: 1px;
-      background: var(--border);
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 1px; background: var(--border);
       border-top: 1px solid var(--border);
     }
-    .metric {
-      background: var(--surface);
-      padding: 1.5rem 1rem;
-      text-align: center;
-    }
-    .metric-value { font-size: 2rem; font-weight: 700; color: var(--accent); }
-    .metric-label { font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin-top: .2rem; }
+    .metric { background: var(--surface); padding: 1.4rem 1rem; text-align: center; }
+    .metric-value { font-size: 1.9rem; font-weight: 700; color: var(--accent); }
+    .metric-label { font-size: .74rem; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin-top: .2rem; }
 
-    /* ── Sections ──────────────────────────────────────────────────────────── */
+    /* ── Section layout ── */
     section { padding: 3.5rem 0; border-bottom: 1px solid var(--border); }
     section:last-child { border-bottom: none; }
     .section-title {
-      font-size: 1.35rem; font-weight: 700;
-      margin-bottom: 1.5rem;
+      font-size: 1.25rem; font-weight: 700; margin-bottom: 1.75rem;
       display: flex; align-items: center; gap: .5rem;
     }
-    .section-title::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-      margin-left: .5rem;
-    }
+    .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); margin-left: .5rem; }
 
-    /* ── Skills cloud ──────────────────────────────────────────────────────── */
-    .skills-cloud { display: flex; flex-wrap: wrap; gap: .6rem; }
-    .skill-tag {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: .35rem .85rem;
-      font-size: .82rem; font-weight: 500;
-      display: inline-flex; align-items: center; gap: .4rem;
-      transition: border-color .15s;
+    /* ── Competency grid ── */
+    .comp-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+      gap: 1.5rem;
     }
-    .skill-tag:hover { border-color: var(--accent); }
-    .skill-score {
-      background: var(--bg);
-      border-radius: 4px;
-      padding: 0 .35rem;
-      font-size: .72rem;
-      color: var(--accent2);
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    /* ── Epic cards ────────────────────────────────────────────────────────── */
-    .epics-grid { display: grid; gap: 1.5rem; }
-    .epic-card {
+    .comp-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       overflow: hidden;
+      transition: border-color .2s, transform .2s;
+    }
+    .comp-card:hover { border-color: var(--comp-color, var(--accent)); transform: translateY(-2px); }
+
+    .comp-header {
+      padding: 1.4rem 1.5rem 1rem;
+      border-left: 4px solid var(--comp-color, var(--accent));
+      display: flex; gap: 1rem; align-items: flex-start;
+    }
+    .comp-icon { font-size: 1.6rem; line-height: 1; flex-shrink: 0; margin-top: .1rem; }
+    .comp-name { font-size: 1.05rem; font-weight: 700; }
+    .comp-desc { font-size: .84rem; color: var(--text-muted); margin-top: .3rem; line-height: 1.5; }
+
+    .comp-section { padding: .75rem 1.5rem; border-top: 1px solid var(--border); }
+    .comp-section-label {
+      font-size: .68rem; text-transform: uppercase; letter-spacing: .1em;
+      color: var(--text-muted); margin-bottom: .55rem;
+    }
+
+    /* Tech pills */
+    .tech-pills { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .tech-pill {
+      background: color-mix(in srgb, var(--comp-color, var(--accent)) 10%, transparent);
+      color: var(--comp-color, var(--accent));
+      border: 1px solid color-mix(in srgb, var(--comp-color, var(--accent)) 30%, transparent);
+      border-radius: 5px; padding: .2rem .6rem;
+      font-size: .76rem; font-weight: 500;
+      display: inline-flex; align-items: center; gap: .35rem;
+    }
+    .tech-count {
+      background: color-mix(in srgb, var(--comp-color, var(--accent)) 20%, transparent);
+      border-radius: 3px; padding: 0 .3rem;
+      font-size: .66rem; font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Soft skill badges */
+    .soft-pills { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .soft-pill {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 20px; padding: .2rem .65rem;
+      font-size: .74rem; color: var(--text-muted);
+    }
+
+    /* Evidence list */
+    .evidence-list { display: flex; flex-direction: column; gap: .5rem; }
+    .ev-item {
+      display: flex; align-items: flex-start; gap: .6rem;
+      font-size: .82rem; padding: .45rem .55rem;
+      border-radius: 6px; background: var(--surface2);
+      border: 1px solid transparent;
+      transition: border-color .15s;
+    }
+    .ev-item:hover { border-color: var(--border); }
+    .ev-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--comp-color, var(--accent));
+      flex-shrink: 0; margin-top: .35rem;
+    }
+    .ev-title { color: var(--text); line-height: 1.4; }
+    .ev-meta { font-size: .72rem; color: var(--text-muted); margin-top: .15rem; }
+    .ev-badge {
+      font-size: .65rem; text-transform: uppercase; letter-spacing: .05em;
+      padding: .1rem .4rem; border-radius: 3px; white-space: nowrap; flex-shrink: 0;
+    }
+    .ev-badge.concluido  { background: color-mix(in srgb, var(--green) 15%, transparent);  color: var(--green);  border: 1px solid color-mix(in srgb, var(--green) 30%, transparent); }
+    .ev-badge.andamento  { background: color-mix(in srgb, var(--accent) 15%, transparent); color: var(--accent); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); }
+    .ev-badge.refinamento { background: color-mix(in srgb, var(--orange) 15%, transparent); color: var(--orange); border: 1px solid color-mix(in srgb, var(--orange) 30%, transparent); }
+    .ev-badge.backlog    { background: var(--surface2); color: var(--text-muted); border: 1px solid var(--border); }
+
+    /* ── Projects grid ── */
+    .projects-grid { display: grid; gap: 1rem; }
+    .project-row {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.1rem 1.4rem;
+      display: flex; gap: 1rem; align-items: flex-start;
       transition: border-color .2s;
     }
-    .epic-card:hover { border-color: var(--accent); }
-    .epic-header {
-      padding: 1.25rem 1.5rem;
-      background: var(--surface2);
-      border-bottom: 1px solid var(--border);
-      display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;
-    }
-    .epic-key {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: .78rem;
-      color: var(--text-muted);
-    }
-    .epic-title { font-size: 1.05rem; font-weight: 600; margin-top: .2rem; }
-    .epic-status {
-      font-size: .72rem; text-transform: uppercase; letter-spacing: .06em;
-      padding: .2rem .6rem; border-radius: 4px; white-space: nowrap;
-      background: color-mix(in srgb, var(--accent2) 15%, transparent);
-      color: var(--accent2); border: 1px solid color-mix(in srgb, var(--accent2) 30%, transparent);
-    }
-    .epic-body { padding: 1.25rem 1.5rem; }
-    .epic-description { color: var(--text-muted); font-size: .9rem; margin-bottom: 1rem; }
-    .epic-skills { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: 1.2rem; }
-    .epic-skill {
-      font-size: .72rem;
+    .project-row:hover { border-color: var(--accent); }
+    .project-info { flex: 1; min-width: 0; }
+    .project-title { font-size: .95rem; font-weight: 600; }
+    .project-desc { font-size: .82rem; color: var(--text-muted); margin-top: .3rem; }
+    .project-tags { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: .6rem; }
+    .proj-skill {
+      font-size: .7rem;
       background: color-mix(in srgb, var(--accent) 10%, transparent);
       color: var(--accent);
       border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
-      border-radius: 4px;
-      padding: .15rem .5rem;
+      border-radius: 4px; padding: .1rem .45rem;
     }
+    .proj-stat { font-size: .72rem; color: var(--text-muted); }
 
-    /* ── Task list ─────────────────────────────────────────────────────────── */
-    .tasks { display: flex; flex-direction: column; gap: .75rem; }
-    .task-item {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1rem 1.25rem;
-    }
-    .task-meta { display: flex; gap: .75rem; align-items: center; flex-wrap: wrap; margin-bottom: .4rem; }
-    .task-key { font-family: 'JetBrains Mono', monospace; font-size: .75rem; color: var(--text-muted); }
-    .task-type {
-      font-size: .7rem; text-transform: uppercase; letter-spacing: .06em;
-      padding: .1rem .45rem; border-radius: 3px;
-    }
-    .task-type.task  { background: #1f3a5f; color: #58a6ff; }
-    .task-type.story { background: #1a3a2f; color: #3fb950; }
-    .task-type.bug   { background: #3d1f1f; color: #f85149; }
-    .task-title { font-size: .92rem; font-weight: 500; }
-    .task-cv-bullet { font-size: .82rem; color: var(--accent2); font-style: italic; margin-top: .35rem; }
-    .task-impact { font-size: .8rem; color: var(--accent3); margin-top: .2rem; }
-    .task-prs { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .6rem; }
-    .pr-chip {
-      display: inline-flex; align-items: center; gap: .3rem;
-      font-size: .72rem;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: .15rem .55rem;
-      color: var(--text-muted);
-      transition: all .15s;
-    }
-    .pr-chip:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
-    .pr-chip .additions { color: var(--accent2); }
-    .pr-chip .deletions { color: #f85149; }
-
-    /* ── Timeline ──────────────────────────────────────────────────────────── */
+    /* ── Timeline ── */
     .timeline { position: relative; padding-left: 1.5rem; }
-    .timeline::before {
-      content: '';
-      position: absolute; left: 0; top: 0; bottom: 0;
-      width: 2px; background: var(--border);
+    .timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--border); }
+    .tl-item { position: relative; margin-bottom: 1.2rem; padding-left: 1.25rem; }
+    .tl-item::before {
+      content: ''; position: absolute; left: -1.6rem; top: .35rem;
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent); border: 2px solid var(--bg);
     }
-    .timeline-item {
-      position: relative;
-      margin-bottom: 1.5rem;
-      padding-left: 1.25rem;
-    }
-    .timeline-item::before {
-      content: '';
-      position: absolute; left: -1.6rem; top: .35rem;
-      width: 10px; height: 10px;
-      border-radius: 50%;
-      background: var(--accent);
-      border: 2px solid var(--bg);
-    }
-    .timeline-date { font-size: .78rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
-    .timeline-title { font-size: .92rem; font-weight: 500; }
-    .timeline-key { font-size: .75rem; color: var(--accent); }
+    .tl-date { font-size: .74rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
+    .tl-title { font-size: .88rem; font-weight: 500; }
+    .tl-meta { font-size: .72rem; color: var(--accent); }
 
-    /* ── Footer ────────────────────────────────────────────────────────────── */
-    .footer {
-      text-align: center;
-      padding: 2rem 0;
-      color: var(--text-muted);
-      font-size: .82rem;
-      border-top: 1px solid var(--border);
-    }
+    /* ── Footer ── */
+    .footer { text-align: center; padding: 2rem 0; color: var(--text-muted); font-size: .8rem; border-top: 1px solid var(--border); }
 
     @media (max-width: 640px) {
       .hero { padding: 3rem 0 2.5rem; }
-      .epic-header { flex-direction: column; }
+      .comp-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 1020px) {
+      .comp-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
-<!-- ── Hero ──────────────────────────────────────────────────────────────── -->
+<!-- ── Hero ─────────────────────────────────────────────────────────────────── -->
 <div class="hero">
   <div class="container">
-    <div style="font-size:1rem;color:var(--text-muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.5rem;">Portfolio</div>
+    <div class="hero-eyebrow">Portfolio</div>
     <h1>{{ portfolio.name }}</h1>
     <div class="role">{{ portfolio.role }}</div>
-    <div class="location">📍 {{ portfolio.location }}</div>
+    <div class="location">{{ portfolio.location }}</div>
     <div class="hero-links">
-      <a class="btn" href="{{ portfolio.github_url }}" target="_blank" rel="noopener">
-        ⚙ GitHub
-      </a>
-      <a class="btn" href="{{ portfolio.linkedin_url }}" target="_blank" rel="noopener">
-        💼 LinkedIn
-      </a>
-      <a class="btn" href="portfolio.json" target="_blank" rel="noopener">
-        {} Raw JSON
-      </a>
+      <a class="btn" href="{{ portfolio.github_url }}" target="_blank" rel="noopener">⚙ GitHub</a>
+      <a class="btn" href="{{ portfolio.linkedin_url }}" target="_blank" rel="noopener">💼 LinkedIn</a>
+      <a class="btn" href="portfolio.json" target="_blank" rel="noopener">{} Raw JSON</a>
     </div>
-    <div class="hero-updated">
-      Last updated: {{ portfolio.generated_at.strftime('%B %d, %Y at %H:%M UTC') }}
-    </div>
+    <div class="hero-updated">Last updated: {{ portfolio.generated_at.strftime('%B %d, %Y') }}</div>
   </div>
 </div>
 
-<!-- ── Metrics bar ────────────────────────────────────────────────────────── -->
+<!-- ── Metrics bar ───────────────────────────────────────────────────────────── -->
 <div class="metrics-bar">
   <div class="metric">
-    <div class="metric-value">{{ portfolio.metrics.total_epics }}</div>
-    <div class="metric-label">Epics</div>
+    <div class="metric-value">{{ portfolio.metrics.top_skills | length }}</div>
+    <div class="metric-label">Technologies</div>
+  </div>
+  <div class="metric">
+    <div class="metric-value">{{ portfolio.epics | selectattr('status', 'equalto', 'Concluído') | list | length }}</div>
+    <div class="metric-label">Projects Delivered</div>
   </div>
   <div class="metric">
     <div class="metric-value">{{ portfolio.metrics.total_tasks }}</div>
-    <div class="metric-label">Tasks / Stories</div>
+    <div class="metric-label">Deliverables</div>
   </div>
   <div class="metric">
     <div class="metric-value">{{ portfolio.metrics.total_prs }}</div>
@@ -275,11 +242,7 @@
   </div>
   <div class="metric">
     <div class="metric-value">+{{ "{:,}".format(portfolio.metrics.total_additions) }}</div>
-    <div class="metric-label">Lines Added</div>
-  </div>
-  <div class="metric">
-    <div class="metric-value">-{{ "{:,}".format(portfolio.metrics.total_deletions) }}</div>
-    <div class="metric-label">Lines Removed</div>
+    <div class="metric-label">Lines of IaC</div>
   </div>
   {% if portfolio.metrics.avg_delivery_days %}
   <div class="metric">
@@ -291,124 +254,314 @@
 
 <div class="container">
 
-<!-- ── Skills ─────────────────────────────────────────────────────────────── -->
+<!-- ── Areas of Expertise ───────────────────────────────────────────────────── -->
 <section>
-  <div class="section-title">⚡ Core Skills</div>
-  <div class="skills-cloud">
-    {% for skill in portfolio.metrics.top_skills %}
-    <span class="skill-tag">
-      {{ skill.name }}
-      <span class="skill-score">{{ skill.score }}</span>
-    </span>
-    {% endfor %}
-  </div>
-</section>
+  <div class="section-title">🧠 Areas of Expertise</div>
+  <div class="comp-grid">
 
-<!-- ── Epics ──────────────────────────────────────────────────────────────── -->
-<section>
-  <div class="section-title">🏗 Epics &amp; Projects</div>
-  <div class="epics-grid">
-    {% for epic in portfolio.epics %}
-    <div class="epic-card">
-      <div class="epic-header">
+    {# ── Infrastructure as Code ── #}
+    {% set iac_skills = ['Terraform', 'Terragrunt', 'CloudFormation', 'Ansible', 'Pulumi'] %}
+    <div class="comp-card" style="--comp-color: #58a6ff;">
+      <div class="comp-header">
+        <div class="comp-icon">⚙️</div>
         <div>
-          <div class="epic-key">{{ epic.key }}</div>
-          <div class="epic-title">
-            {% if epic.enriched_summary %}{{ epic.enriched_summary }}
-            {% else %}{{ epic.summary }}{% endif %}
-          </div>
+          <div class="comp-name">Infrastructure as Code</div>
+          <div class="comp-desc">Design and maintain cloud infrastructure as versioned, peer-reviewed code with automated apply pipelines via Atlantis.</div>
         </div>
-        <span class="epic-status">{{ epic.status }}</span>
       </div>
-      <div class="epic-body">
-        {% if epic.skills %}
-        <div class="epic-skills">
-          {% for skill in epic.skills[:8] %}
-          <span class="epic-skill">{{ skill.name }}</span>
+      <div class="comp-section">
+        <div class="comp-section-label">Stack</div>
+        <div class="tech-pills">
+          {% for s in portfolio.metrics.top_skills if s.name in iac_skills %}
+          <span class="tech-pill">{{ s.name }}<span class="tech-count">{{ s.mentions }}x</span></span>
           {% endfor %}
         </div>
-        {% endif %}
-
-        {% if epic.tasks %}
-        <div class="tasks">
-          {% for task in epic.tasks %}
-          <div class="task-item">
-            <div class="task-meta">
-              <span class="task-key">{{ task.key }}</span>
-              <span class="task-type {{ task.issue_type.lower() }}">{{ task.issue_type }}</span>
-              <span style="font-size:.72rem;color:var(--text-muted)">{{ task.status }}</span>
+      </div>
+      <div class="comp-section">
+        <div class="comp-section-label">Skills demonstrated</div>
+        <div class="soft-pills">
+          <span class="soft-pill">Planning</span>
+          <span class="soft-pill">Code Review</span>
+          <span class="soft-pill">Documentation</span>
+          <span class="soft-pill">Change Management</span>
+        </div>
+      </div>
+      <div class="comp-section">
+        <div class="comp-section-label">Evidence</div>
+        <div class="evidence-list">
+          {% for epic in portfolio.epics if epic.status != 'Descartado' %}
+            {% set ns = namespace(match=false) %}
+            {% for s in epic.skills %}{% if s.name in iac_skills %}{% set ns.match = true %}{% endif %}{% endfor %}
+            {% if ns.match %}
+            <div class="ev-item">
+              <div class="ev-dot"></div>
+              <div>
+                <div class="ev-title">
+                  {{ epic.summary[:70] }}{% if epic.summary|length > 70 %}…{% endif %}
+                  <span class="ev-badge {% if epic.status == 'Concluído' %}concluido{% elif 'andamento' in epic.status|lower %}andamento{% elif epic.status == 'Refinamento' %}refinamento{% else %}backlog{% endif %}" style="margin-left:.4rem">{{ epic.status }}</span>
+                </div>
+                {% if epic.tasks %}
+                <div class="ev-meta">{{ epic.tasks | length }} deliverable{{ 's' if epic.tasks|length > 1 }} · {{ epic.tasks | sum(attribute='pull_requests') | list | length if false else (epic.tasks | map(attribute='pull_requests') | sum(start=[]) | list | length) }} PRs</div>
+                {% endif %}
+              </div>
             </div>
-            <div class="task-title">{{ task.summary }}</div>
-            {% if task.cv_bullet %}
-            <div class="task-cv-bullet">→ {{ task.cv_bullet }}</div>
             {% endif %}
-            {% if task.business_impact %}
-            <div class="task-impact">💡 {{ task.business_impact }}</div>
-            {% endif %}
-            {% if task.pull_requests %}
-            <div class="task-prs">
-              {% for pr in task.pull_requests %}
-              <a class="pr-chip" href="{{ pr.url }}" target="_blank" rel="noopener">
-                🔀 #{{ pr.number }} {{ pr.repo.split('/')[1] if '/' in pr.repo else pr.repo }}
-                <span class="additions">+{{ pr.additions }}</span>
-                <span class="deletions">-{{ pr.deletions }}</span>
-              </a>
-              {% endfor %}
-            </div>
-            {% endif %}
-          </div>
           {% endfor %}
         </div>
-        {% endif %}
       </div>
     </div>
-    {% endfor %}
+
+    {# ── Cloud Infrastructure ── #}
+    {% set cloud_skills = ['AWS', 'AWS EC2', 'AWS ECS', 'AWS Fargate', 'AWS VPC', 'AWS Lambda', 'AWS S3', 'AWS CloudFront'] %}
+    <div class="comp-card" style="--comp-color: #3fb950;">
+      <div class="comp-header">
+        <div class="comp-icon">☁️</div>
+        <div>
+          <div class="comp-name">Cloud Infrastructure</div>
+          <div class="comp-desc">Architect and operate scalable, cost-optimized cloud environments on AWS — from VPC design to container orchestration on ECS.</div>
+        </div>
+      </div>
+      <div class="comp-section">
+        <div class="comp-section-label">Stack</div>
+        <div class="tech-pills">
+          {% for s in portfolio.metrics.top_skills if s.name in cloud_skills %}
+          <span class="tech-pill">{{ s.name }}<span class="tech-count">{{ s.mentions }}x</span></span>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="comp-section">
+        <div class="comp-section-label">Skills demonstrated</div>
+        <div class="soft-pills">
+          <span class="soft-pill">Reliability Engineering</span>
+          <span class="soft-pill">Cost Optimization</span>
+          <span class="soft-pill">Migration Planning</span>
+          <span class="soft-pill">Multi-account Management</span>
+        </div>
+      </div>
+      <div class="comp-section">
+        <div class="comp-section-label">Evidence</div>
+        <div class="evidence-list">
+          {% for epic in portfolio.epics if epic.status != 'Descartado' %}
+            {% set ns = namespace(match=false) %}
+            {% for s in epic.skills %}{% if s.name in cloud_skills and s.name != 'AWS' %}{% set ns.match = true %}{% endif %}{% endfor %}
+            {% if ns.match %}
+            <div class="ev-item">
+              <div class="ev-dot"></div>
+              <div>
+                <div class="ev-title">
+                  {{ epic.summary[:70] }}{% if epic.summary|length > 70 %}…{% endif %}
+                  <span class="ev-badge {% if epic.status == 'Concluído' %}concluido{% elif 'andamento' in epic.status|lower %}andamento{% elif epic.status == 'Refinamento' %}refinamento{% else %}backlog{% endif %}" style="margin-left:.4rem">{{ epic.status }}</span>
+                </div>
+              </div>
+            </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    {# ── Database Reliability ── #}
+    {% set db_skills = ['AWS RDS', 'Aurora', 'PostgreSQL', 'MySQL', 'Redis', 'Valkey'] %}
+    <div class="comp-card" style="--comp-color: #f0883e;">
+      <div class="comp-header">
+        <div class="comp-icon">🗄️</div>
+        <div>
+          <div class="comp-name">Database Reliability</div>
+          <div class="comp-desc">Plan and execute zero-downtime database upgrades and migrations across multi-account environments, coordinating with product teams.</div>
+        </div>
+      </div>
+      <div class="comp-section">
+        <div class="comp-section-label">Stack</div>
+        <div class="tech-pills">
+          {% for s in portfolio.metrics.top_skills if s.name in db_skills %}
+          <span class="tech-pill">{{ s.name }}<span class="tech-count">{{ s.mentions }}x</span></span>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="comp-section">
+        <div class="comp-section-label">Skills demonstrated</div>
+        <div class="soft-pills">
+          <span class="soft-pill">Risk Assessment</span>
+          <span class="soft-pill">Zero-downtime Migration</span>
+          <span class="soft-pill">Cross-team Communication</span>
+          <span class="soft-pill">Deadline Management</span>
+        </div>
+      </div>
+      <div class="comp-section">
+        <div class="comp-section-label">Evidence</div>
+        <div class="evidence-list">
+          {% for epic in portfolio.epics if epic.status != 'Descartado' %}
+            {% set ns = namespace(match=false) %}
+            {% for s in epic.skills %}{% if s.name in db_skills %}{% set ns.match = true %}{% endif %}{% endfor %}
+            {% if ns.match %}
+            <div class="ev-item">
+              <div class="ev-dot"></div>
+              <div>
+                <div class="ev-title">
+                  {{ epic.summary[:70] }}{% if epic.summary|length > 70 %}…{% endif %}
+                  <span class="ev-badge {% if epic.status == 'Concluído' %}concluido{% elif 'andamento' in epic.status|lower %}andamento{% elif epic.status == 'Refinamento' %}refinamento{% else %}backlog{% endif %}" style="margin-left:.4rem">{{ epic.status }}</span>
+                </div>
+                {% if epic.tasks %}
+                <div class="ev-meta">{{ epic.tasks | length }} deliverable{{ 's' if epic.tasks|length > 1 }}</div>
+                {% endif %}
+              </div>
+            </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    {# ── Observability ── #}
+    {% set obs_skills = ['Grafana', 'Loki', 'Mimir', 'Tempo', 'AWS CloudWatch', 'Prometheus'] %}
+    <div class="comp-card" style="--comp-color: #bc8cff;">
+      <div class="comp-header">
+        <div class="comp-icon">📊</div>
+        <div>
+          <div class="comp-name">Observability & Monitoring</div>
+          <div class="comp-desc">Build full-stack observability platforms (metrics, logs, traces) enabling engineering teams to operate with confidence in production.</div>
+        </div>
+      </div>
+      <div class="comp-section">
+        <div class="comp-section-label">Stack</div>
+        <div class="tech-pills">
+          {% for s in portfolio.metrics.top_skills if s.name in obs_skills %}
+          <span class="tech-pill">{{ s.name }}<span class="tech-count">{{ s.mentions }}x</span></span>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="comp-section">
+        <div class="comp-section-label">Skills demonstrated</div>
+        <div class="soft-pills">
+          <span class="soft-pill">Proactive Monitoring</span>
+          <span class="soft-pill">SLO Definition</span>
+          <span class="soft-pill">Incident Response</span>
+          <span class="soft-pill">Platform Adoption</span>
+        </div>
+      </div>
+      <div class="comp-section">
+        <div class="comp-section-label">Evidence</div>
+        <div class="evidence-list">
+          {% for epic in portfolio.epics if epic.status != 'Descartado' %}
+            {% set ns = namespace(match=false) %}
+            {% for s in epic.skills %}{% if s.name in obs_skills %}{% set ns.match = true %}{% endif %}{% endfor %}
+            {% if ns.match %}
+            <div class="ev-item">
+              <div class="ev-dot"></div>
+              <div>
+                <div class="ev-title">
+                  {{ epic.summary[:70] }}{% if epic.summary|length > 70 %}…{% endif %}
+                  <span class="ev-badge {% if epic.status == 'Concluído' %}concluido{% elif 'andamento' in epic.status|lower %}andamento{% elif epic.status == 'Refinamento' %}refinamento{% else %}backlog{% endif %}" style="margin-left:.4rem">{{ epic.status }}</span>
+                </div>
+              </div>
+            </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    {# ── Security & Access ── #}
+    {% set sec_skills = ['AWS IAM', 'HashiCorp Vault', 'AWS CloudFront'] %}
+    <div class="comp-card" style="--comp-color: #f85149;">
+      <div class="comp-header">
+        <div class="comp-icon">🔐</div>
+        <div>
+          <div class="comp-name">Security & Access Control</div>
+          <div class="comp-desc">Enforce least-privilege IAM policies, manage secrets at scale with Vault, and harden access controls across multi-account AWS environments.</div>
+        </div>
+      </div>
+      <div class="comp-section">
+        <div class="comp-section-label">Stack</div>
+        <div class="tech-pills">
+          {% for s in portfolio.metrics.top_skills if s.name in sec_skills %}
+          <span class="tech-pill">{{ s.name }}<span class="tech-count">{{ s.mentions }}x</span></span>
+          {% endfor %}
+          <span class="tech-pill">AWS SSO</span>
+          <span class="tech-pill">MFA</span>
+        </div>
+      </div>
+      <div class="comp-section">
+        <div class="comp-section-label">Skills demonstrated</div>
+        <div class="soft-pills">
+          <span class="soft-pill">Access Governance</span>
+          <span class="soft-pill">Compliance</span>
+          <span class="soft-pill">Threat Modeling</span>
+          <span class="soft-pill">Policy Enforcement</span>
+        </div>
+      </div>
+      <div class="comp-section">
+        <div class="comp-section-label">Evidence</div>
+        <div class="evidence-list">
+          {% for epic in portfolio.epics if epic.status != 'Descartado' %}
+            {% set ns = namespace(match=false) %}
+            {% for s in epic.skills %}{% if s.name in sec_skills %}{% set ns.match = true %}{% endif %}{% endfor %}
+            {% if ns.match or 'segurança' in epic.summary|lower or 'security' in epic.summary|lower or 'mfa' in epic.summary|lower or 'vault' in epic.summary|lower %}
+            <div class="ev-item">
+              <div class="ev-dot"></div>
+              <div>
+                <div class="ev-title">
+                  {{ epic.summary[:70] }}{% if epic.summary|length > 70 %}…{% endif %}
+                  <span class="ev-badge {% if epic.status == 'Concluído' %}concluido{% elif 'andamento' in epic.status|lower %}andamento{% elif epic.status == 'Refinamento' %}refinamento{% else %}backlog{% endif %}" style="margin-left:.4rem">{{ epic.status }}</span>
+                </div>
+              </div>
+            </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
-<!-- ── Standalone Tasks ───────────────────────────────────────────────────── -->
-{% if portfolio.standalone_tasks %}
+<!-- ── Delivered Projects ────────────────────────────────────────────────────── -->
+{% set delivered = portfolio.epics | selectattr('status', 'equalto', 'Concluído') | list %}
+{% if delivered %}
 <section>
-  <div class="section-title">🧩 Additional Contributions</div>
-  <div class="tasks">
-    {% for task in portfolio.standalone_tasks %}
-    <div class="task-item">
-      <div class="task-meta">
-        <span class="task-key">{{ task.key }}</span>
-        <span class="task-type {{ task.issue_type.lower() }}">{{ task.issue_type }}</span>
-        <span style="font-size:.72rem;color:var(--text-muted)">{{ task.status }}</span>
+  <div class="section-title">✅ Delivered Projects</div>
+  <div class="projects-grid">
+    {% for epic in delivered %}
+    <div class="project-row">
+      <div class="project-info">
+        <div class="project-title">
+          {% if epic.enriched_summary %}{{ epic.enriched_summary }}
+          {% else %}{{ epic.summary }}{% endif %}
+        </div>
+        {% if epic.description %}
+        <div class="project-desc">{{ epic.description[:160] }}{% if epic.description|length > 160 %}…{% endif %}</div>
+        {% endif %}
+        <div class="project-tags">
+          {% for s in epic.skills[:6] %}
+          <span class="proj-skill">{{ s.name }}</span>
+          {% endfor %}
+        </div>
       </div>
-      <div class="task-title">{{ task.summary }}</div>
-      {% if task.cv_bullet %}<div class="task-cv-bullet">→ {{ task.cv_bullet }}</div>{% endif %}
-      {% if task.business_impact %}<div class="task-impact">💡 {{ task.business_impact }}</div>{% endif %}
-      {% if task.pull_requests %}
-      <div class="task-prs">
-        {% for pr in task.pull_requests %}
-        <a class="pr-chip" href="{{ pr.url }}" target="_blank" rel="noopener">
-          🔀 #{{ pr.number }}
-          <span class="additions">+{{ pr.additions }}</span>
-          <span class="deletions">-{{ pr.deletions }}</span>
-        </a>
-        {% endfor %}
+      <div style="text-align:right; flex-shrink:0;">
+        {% if epic.tasks %}
+        <div class="proj-stat">{{ epic.tasks | length }} tasks</div>
+        <div class="proj-stat">{{ epic.tasks | map(attribute='pull_requests') | sum(start=[]) | list | length }} PRs</div>
+        {% endif %}
       </div>
-      {% endif %}
     </div>
     {% endfor %}
   </div>
 </section>
 {% endif %}
 
-<!-- ── Timeline ───────────────────────────────────────────────────────────── -->
+<!-- ── Activity Timeline ─────────────────────────────────────────────────────── -->
 <section>
-  <div class="section-title">📅 Activity Timeline</div>
+  <div class="section-title">📅 Recent Activity</div>
   <div class="timeline">
     {% set all_issues = (portfolio.epics | map(attribute='tasks') | sum(start=[])) + portfolio.standalone_tasks %}
-    {% for issue in all_issues | sort(attribute='created', reverse=True) | list %}
-    {% if issue.created %}
-    <div class="timeline-item">
-      <div class="timeline-date">{{ issue.created.strftime('%Y-%m-%d') }}</div>
-      <div class="timeline-title">{{ issue.summary }}</div>
-      <div class="timeline-key">{{ issue.key }} · {{ issue.issue_type }} · {{ issue.status }}</div>
+    {% for issue in all_issues | sort(attribute='updated', reverse=True) | list | unique(attribute='key') %}
+    {% if issue.updated and loop.index <= 20 %}
+    <div class="tl-item">
+      <div class="tl-date">{{ issue.updated.strftime('%Y-%m-%d') }}</div>
+      <div class="tl-title">{{ issue.summary }}</div>
+      <div class="tl-meta">{{ issue.status }}
+        {% if issue.skills %}· {{ issue.skills[:2] | map(attribute='name') | join(', ') }}{% endif %}
+      </div>
     </div>
     {% endif %}
     {% endfor %}
@@ -418,9 +571,8 @@
 </div><!-- /container -->
 
 <footer class="footer">
-  Generated automatically by
-  <a href="https://github.com/{{ portfolio.github_url.split('github.com/')[-1] }}/devops-portfolio">devops-portfolio</a>
-  · Powered by Jira + GitHub + Anthropic Claude
+  Generated automatically from Jira + GitHub ·
+  <a href="{{ portfolio.github_url }}" target="_blank" rel="noopener">{{ portfolio.name }}</a>
 </footer>
 
 </body>

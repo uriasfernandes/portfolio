@@ -21,3 +21,9 @@ packages = ["src"]
 
 [project.scripts]
 portfolio = "scripts.main:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.2.0",
+    "ruff>=0.4.0",
+]

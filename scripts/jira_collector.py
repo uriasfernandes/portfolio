@@ -47,7 +47,7 @@ def _extract_pr_urls(text: str | None) -> list[str]:
 
 def _search(jql: str, fields: list[str], max_results: int = 200) -> list[dict]:
     """Paginate through Jira search results."""
-    url = f"{_base()}/rest/api/3/search"
+    url = f"{_base()}/rest/api/3/search/jql"
     results: list[dict] = []
     start = 0
 

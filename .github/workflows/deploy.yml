@@ -35,10 +35,10 @@ jobs:
           python-version: '3.12'
 
       - name: Install uv
-        run: pip install uv
+        uses: astral-sh/setup-uv@v5
 
       - name: Install dependencies
-        run: uv pip install --system -e .
+        run: uv sync
 
       - name: Run portfolio pipeline
         env:
@@ -46,8 +46,8 @@ jobs:
           JIRA_EMAIL:          ${{ secrets.JIRA_EMAIL }}
           JIRA_API_TOKEN:      ${{ secrets.JIRA_API_TOKEN }}
           JIRA_PROJECT_KEY:    ${{ vars.JIRA_PROJECT_KEY }}
-          GITHUB_TOKEN:        ${{ secrets.GH_PAT }}
-          GITHUB_USERNAME:     ${{ vars.GITHUB_USERNAME }}
+          GH_TOKEN:            ${{ secrets.GH_PAT }}
+          GH_USERNAME:         ${{ vars.GH_USERNAME }}
           PORTFOLIO_NAME:      ${{ vars.PORTFOLIO_NAME }}
           PORTFOLIO_ROLE:      ${{ vars.PORTFOLIO_ROLE }}
           PORTFOLIO_LOCATION:  ${{ vars.PORTFOLIO_LOCATION }}
@@ -55,12 +55,12 @@ jobs:
           PORTFOLIO_LINKEDIN:  ${{ vars.PORTFOLIO_LINKEDIN }}
           ANTHROPIC_API_KEY:   ${{ secrets.ANTHROPIC_API_KEY }}
           USE_AI_ENRICHMENT:   'true'
-        run: python -m scripts.main
+        run: uv run python -m scripts.main
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './site'
+          path: './site-public'
 
   deploy:
     name: Deploy to GitHub Pages

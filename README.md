@@ -32,17 +32,20 @@ cp .env.example .env
 ### 2. Install dependencies
 
 ```bash
+# instalar uv (uma vez só, globalmente)
 pip install uv
-uv pip install -e .
+
+# criar o venv e instalar dependências
+uv sync
 ```
 
 ### 3. Run locally
 
 ```bash
-python -m scripts.main              # full pipeline with AI
-python -m scripts.main --no-ai      # skip AI enrichment
-python -m scripts.main --no-github  # skip GitHub
-python -m scripts.main --dry-run    # preview without writing files
+uv run python -m scripts.main              # full pipeline with AI
+uv run python -m scripts.main --no-ai      # skip AI enrichment
+uv run python -m scripts.main --no-github  # skip GitHub
+uv run python -m scripts.main --dry-run    # preview without writing files
 ```
 
 The site is generated in `./site/`. Open `site/index.html` in a browser to preview.
@@ -66,7 +69,7 @@ The site is generated in `./site/`. Open `site/index.html` in a browser to previ
 | Variable | Value |
 |---|---|
 | `JIRA_PROJECT_KEY` | e.g. `DEVOPS` |
-| `GITHUB_USERNAME` | your GitHub username |
+| `GH_USERNAME` | your GitHub username |
 | `PORTFOLIO_NAME` | Your Full Name |
 | `PORTFOLIO_ROLE` | e.g. `DevOps / Platform Engineer` |
 | `PORTFOLIO_LOCATION` | e.g. `Brazil · Open to Remote (US/EU)` |

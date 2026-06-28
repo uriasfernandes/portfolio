@@ -136,6 +136,7 @@ def fetch_epics(project: str) -> list[dict]:
     jql = (
         f'project = "{project}" AND issuetype = Epic '
         f"AND (reporter = currentUser() OR assignee = currentUser()) "
+        f'AND status NOT IN ("Descartado", "Backlog") '
         f"ORDER BY created DESC"
     )
     return [_parse_issue(r) for r in _search(jql, FIELDS)]
@@ -145,6 +146,7 @@ def fetch_tasks(project: str) -> list[dict]:
     jql = (
         f'project = "{project}" AND issuetype in (Task, Story, Bug, Sub-task) '
         f"AND (reporter = currentUser() OR assignee = currentUser()) "
+        f'AND status NOT IN ("Descartado", "Backlog") '
         f"ORDER BY created DESC"
     )
     return [_parse_issue(r) for r in _search(jql, FIELDS)]

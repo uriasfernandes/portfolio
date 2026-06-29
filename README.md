@@ -87,9 +87,9 @@ The site is generated in `./site/`. Open `site/index.html` in a browser to previ
 ## Architecture
 
 ```
-Jira API  ──┐
+Jira API   ──┐
              ├─► Data Processing (Python)
-GitHub API ──┘        │
+GitHub API ──┘         │
                        ▼
                Skill Analyzer (rule-based)
                        │
@@ -143,6 +143,14 @@ Example:
 - [ ] V3: FastAPI backend + PostgreSQL history
 - [ ] V3: LinkedIn integration
 - [ ] V3: AWS ECS/Fargate + CloudFront deploy
+
+---
+
+## Built with AI assistance
+
+This project was built using **AI-directed engineering**: the product vision, architecture decisions, and engineering judgment came from the author; the implementation (code, API integrations, HTML/CSS, data processing) was written with [Claude Code](https://claude.ai/code) as a coding assistant.
+
+This is an intentional and honest reflection of how modern engineering works. The skills demonstrated here — knowing *what* to build, *how* to structure it, *what decisions to make*, and *when to course-correct* — are the engineering work. Writing boilerplate code is not.
 
 ---
 

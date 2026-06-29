@@ -192,8 +192,26 @@
     .tl-title { font-size: .88rem; font-weight: 500; }
     .tl-meta { font-size: .72rem; color: var(--accent); }
 
+    /* ── Data sources banner ── */
+    .sources-banner {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 0;
+      text-align: center;
+    }
+    .sources-banner p { color: var(--text-muted); font-size: .88rem; margin-bottom: 1.2rem; }
+    .sources-banner p strong { color: var(--text); }
+    .sources-list { display: flex; flex-wrap: wrap; gap: .6rem; justify-content: center; margin-bottom: 1.2rem; }
+    .source-chip {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 6px; padding: .3rem .9rem;
+      font-size: .8rem; color: var(--text-muted);
+      display: inline-flex; align-items: center; gap: .4rem;
+    }
+    .sources-note { font-size: .78rem; color: var(--text-muted); font-style: italic; }
+
     /* ── Footer ── */
-    .footer { text-align: center; padding: 2rem 0; color: var(--text-muted); font-size: .8rem; border-top: 1px solid var(--border); }
+    .footer { text-align: center; padding: 1.25rem 0; color: var(--text-muted); font-size: .76rem; border-top: 1px solid var(--border); }
 
     @media (max-width: 640px) {
       .hero { padding: 3rem 0 2.5rem; }
@@ -570,9 +588,29 @@
 
 </div><!-- /container -->
 
+<!-- ── Data sources ──────────────────────────────────────────────────────────── -->
+<div class="sources-banner">
+  <div class="container">
+    <p><strong>Automatically generated from real engineering work:</strong></p>
+    <div class="sources-list">
+      <span class="source-chip">🗂 Jira</span>
+      <span class="source-chip">⚙ GitHub</span>
+      <span class="source-chip">🔀 Pull Requests</span>
+      <span class="source-chip">🏗 Infrastructure Changes</span>
+      <span class="source-chip">🚀 GitHub Actions</span>
+    </div>
+    <div class="sources-note">Every project displayed here is backed by real engineering work.</div>
+    <div style="margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--border);font-size:.76rem;color:var(--text-muted);max-width:600px;margin-left:auto;margin-right:auto;">
+      Built with <strong style="color:var(--text)">AI-directed engineering</strong> —
+      product vision, architecture decisions, and engineering judgment by the author;
+      implementation assisted by <a href="https://claude.ai/code" target="_blank" rel="noopener">Claude Code</a>.
+    </div>
+  </div>
+</div>
+
 <footer class="footer">
-  Generated automatically from Jira + GitHub ·
   <a href="{{ portfolio.github_url }}" target="_blank" rel="noopener">{{ portfolio.name }}</a>
+  · Last updated {{ portfolio.generated_at.strftime('%B %d, %Y') }}
 </footer>
 
 </body>
